@@ -12,7 +12,7 @@ app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, "client", "build")))
 
 mongoose.connect(
-    'mongodb://localhost:27017/vquad',
+    process.env.MONGODB_URI,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
