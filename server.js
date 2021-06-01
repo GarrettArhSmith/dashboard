@@ -4,9 +4,12 @@ require("dotenv").config();
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const expressJwt = require('express-jwt')
+const path = require("path")
+const port = process.env.PORT || 9000;
 
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(express.static(path.join(__dirname, "client", "build")))
 
 mongoose.connect(
     'mongodb://localhost:27017/vquad',
@@ -28,6 +31,10 @@ app.use((err, req, res, next) => {
     return res.send({errMsg: err.message})
 })
 
-app.listen(9000, () => {
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
+app.listen(port, () => {
     console.log("Server is listening on port 9000")
 })
